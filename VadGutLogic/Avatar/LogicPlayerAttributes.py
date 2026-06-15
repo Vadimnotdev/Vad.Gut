@@ -3,8 +3,8 @@ from VadGutLogic.Base.LogicBase import LogicBase
 from VadGutLogic.Avatar.LogicTeamUnit import LogicTeamUnit
 class LogicPlayerAttributes(LogicBase):
     def __init__(self):
-        self.expLevel = 5
-        self.expPoints = 5
+        self.expLevel = 0
+        self.expPoints = 0
         self.money = 99999
         self.diamonds = 99999
         self.leagueMmr = 0

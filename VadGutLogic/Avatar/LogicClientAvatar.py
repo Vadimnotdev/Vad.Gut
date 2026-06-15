@@ -11,7 +11,7 @@ class LogicClientAvatar(LogicBase):
         self.name = "Vadim"
         self.AvatarCode = ""
         self.MissionStatus = 0
-        self.TutorialFlags = 9999
+        self.TutorialFlags = 0
         self.AvatarGames = 0
 
 

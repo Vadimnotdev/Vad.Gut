@@ -3,7 +3,10 @@ from VadGutLogic.Message.Account.CreateAccountMessage import CreateAccountMessag
 from VadGutLogic.Message.Auth.LoginUsingSessionMessage import LoginUsingSessionMessage
 from VadGutLogic.Message.Account.SelectAvatarMessage import SelectAvatarMessage
 from VadGutLogic.Message.Account.CreateAvatarMessage import CreateAvatarMessage
-from VadGutLogic.Avatar.AskForFriendListMessage import AskForFriendListMessage
+from VadGutLogic.Message.Avatar.AskForFriendListMessage import AskForFriendListMessage
+from VadGutLogic.Message.Avatar.AskForAddableFriendsMessage import AskForAddableFriendsMessage
+from VadGutLogic.Message.Avatar.TutorialProgressUpdateMessage import TutorialProgressUpdateMessage
+from VadGutLogic.Message.Avatar.MissionStatusMessage import MissionStatusMessage
 
 
 class LogicGutMessageFactory:
@@ -14,7 +17,9 @@ class LogicGutMessageFactory:
         10201: SelectAvatarMessage,
         10200: CreateAvatarMessage,
         10504: AskForFriendListMessage,
-
+        10503: AskForAddableFriendsMessage,
+        10209: MissionStatusMessage,
+        10210: TutorialProgressUpdateMessage,
         }
     def createMessageByType(messageType):
         messages = LogicGutMessageFactory.messages
