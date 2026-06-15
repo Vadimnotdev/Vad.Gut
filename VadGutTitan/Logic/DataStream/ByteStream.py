@@ -53,10 +53,11 @@ class ByteStream(ChecksumEncoder):
 
     def readByte(self):
         self.bitIndex = 0
+        value = self.buffer[self.offset]
         self.offset = self.offset + 1
-        return self.buffer[self.offset]
+        return value
 
-    def readBytes(self, length, maxCapacity):  # a2 - length a3 - maxCapacity
+    def readBytes(self, length, maxCapacity=900000):  # a2 - length a3 - maxCapacity
         self.bitIndex = 0
         if length <= -1:
             if length != -1:

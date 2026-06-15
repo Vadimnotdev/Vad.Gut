@@ -4,8 +4,8 @@ from VadGutTitan.Logic.Message.PiranhaMessage import PiranhaMessage
 from VadGutLogic.Message.Account.CreateAccountOkMessage import CreateAccountOkMessage
 from VadGutLogic.Message.Auth.LoginOkMessage import LoginOkMessage
 from VadGutLogic.Message.Account.AvatarDataMessage import AvatarDataMessage
-from VadGutLogic.Avatar.AskForFriendListMessage import AskForFriendListMessage
-from VadGutLogic.Avatar.FriendListMessage import FriendListMessage
+from VadGutLogic.Message.Avatar.FriendListMessage import FriendListMessage
+from VadGutLogic.Message.Avatar.AddableFriendsMessage import AddableFriendsMessage
 from VadGutServer.Protocol.Messaging import Messaging
 
 class MessageManager:
@@ -25,6 +25,8 @@ class MessageManager:
                 self.onSelectAvatarMessage(message)
             case 10504:
                 self.onAskForFriendListMessage(message)
+            case 10503:
+                self.onAskForAddableFriendsMessage(message)
             case _:
                 Debugger.warning("Unknown message type: " + str(messageType))
 
@@ -45,3 +47,6 @@ class MessageManager:
     
     def onAskForFriendListMessage(self, message):
         self.messaging.sendMessage(FriendListMessage())
+    
+    def onAskForAddableFriendsMessage(self, message):
+        self.messaging.sendMessage(AddableFriendsMessage())
