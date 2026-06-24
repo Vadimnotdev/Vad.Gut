@@ -6,6 +6,10 @@ from VadGutLogic.Message.Auth.LoginOkMessage import LoginOkMessage
 from VadGutLogic.Message.Account.AvatarDataMessage import AvatarDataMessage
 from VadGutLogic.Message.Avatar.FriendListMessage import FriendListMessage
 from VadGutLogic.Message.Avatar.AddableFriendsMessage import AddableFriendsMessage
+from VadGutLogic.Message.Avatar.BuyOkMessage import BuyOkMessage
+from VadGutLogic.Message.Avatar.BuyMessage import BuyMessage
+from VadGutLogic.Message.LogicAvatarChange.LogicAvatarChangeMessage import LogicAvatarChangeMessage
+from VadGutLogic.Message.Avatar.MissionStatusMessage import MissionStatusMessage
 from VadGutServer.Protocol.Messaging import Messaging
 
 class MessageManager:
@@ -27,6 +31,10 @@ class MessageManager:
                 self.onAskForFriendListMessage(message)
             case 10503:
                 self.onAskForAddableFriendsMessage(message)
+            case 10204:
+                self.onBuyMessage(message)
+            case 10209:
+                self.onLogicMissionAvatarChange(message)
             case _:
                 Debugger.warning("Unknown message type: " + str(messageType))
 
@@ -50,3 +58,12 @@ class MessageManager:
     
     def onAskForAddableFriendsMessage(self, message):
         self.messaging.sendMessage(AddableFriendsMessage())
+    
+    def onBuyMessage(self, message):
+        buyMessage = BuyMessage()
+        self.messaging.sendMessage(BuyOkMessage(buyMessage.Item))
+    
+    def onLogicMissionAvatarChange(self, message: MissionStatusMessage):
+        print("MISSION STATUS ",message.MissionStatus)
+        if message.MissionStatus == 12: #1 = StartMission, #32 = EndCurrentMissionFail 12 = EndCurrentWin
+            self.messaging.sendMessage(LogicAvatarChangeMessage(5, message.MissionId + 1, 2)) # 2 = OpenNextMission, 4 = restartMission

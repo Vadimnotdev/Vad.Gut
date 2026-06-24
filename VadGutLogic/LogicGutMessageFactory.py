@@ -9,6 +9,7 @@ from VadGutLogic.Message.Avatar.TutorialProgressUpdateMessage import TutorialPro
 from VadGutLogic.Message.Avatar.MissionStatusMessage import MissionStatusMessage
 from VadGutLogic.Message.Account.ChangeAccountSettingsMessage import ChangeAccountSettingsMessage
 from VadGutLogic.Message.Account.KeepAliveMessage import KeepAliveMessage
+from VadGutLogic.Message.Avatar.BuyMessage import BuyMessage
 
 
 class LogicGutMessageFactory:
@@ -24,6 +25,7 @@ class LogicGutMessageFactory:
         10210: TutorialProgressUpdateMessage,
         10104: ChangeAccountSettingsMessage,
         10108: KeepAliveMessage,
+        10204: BuyMessage,
         }
     def createMessageByType(messageType):
         messages = LogicGutMessageFactory.messages
