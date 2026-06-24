@@ -16,8 +16,7 @@ class LogicAvatarChangeFactory:
             case 5:
                 change = LogicMissionAvatarChange()
                 change.missionId = args[0]
-                if len(args) > 1:
-                    change.missionStatus = args[1]
+                change.missionStatus = args[1]
                 return change
             case _:
                 Debugger.error(f"Unknown AvatarChangeType: {self.AvatarChangeType}")

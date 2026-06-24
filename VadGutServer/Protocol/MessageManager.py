@@ -10,6 +10,7 @@ from VadGutLogic.Message.Avatar.BuyOkMessage import BuyOkMessage
 from VadGutLogic.Message.Avatar.BuyMessage import BuyMessage
 from VadGutLogic.Message.LogicAvatarChange.LogicAvatarChangeMessage import LogicAvatarChangeMessage
 from VadGutLogic.Message.Avatar.MissionStatusMessage import MissionStatusMessage
+from VadGutLogic.Message.League.LeagueStatsMessage import LeagueStatsMessage
 from VadGutServer.Protocol.Messaging import Messaging
 
 class MessageManager:
@@ -35,11 +36,11 @@ class MessageManager:
                 self.onBuyMessage(message)
             case 10209:
                 self.onLogicMissionAvatarChange(message)
+            case 10601:
+                self.onAskForLeagueStatsMessage(message)
             case _:
-                Debugger.warning("Unknown message type: " + str(messageType))
-
-    def __str__(self) -> str:
-        return f"{self.highInteger}-{self.lowInteger}"
+                if messageType != 10108:
+                    Debugger.warning("Unknown message type: " + str(messageType))
     
     def onStartSecureConnectionMessage(self, message):
         self.messaging.sendMessage(SecureConnectionOkMessage())
@@ -64,6 +65,8 @@ class MessageManager:
         self.messaging.sendMessage(BuyOkMessage(buyMessage.Item))
     
     def onLogicMissionAvatarChange(self, message: MissionStatusMessage):
-        print("MISSION STATUS ",message.MissionStatus)
-        if message.MissionStatus == 12: #1 = StartMission, #32 = EndCurrentMissionFail 12 = EndCurrentWin
-            self.messaging.sendMessage(LogicAvatarChangeMessage(5, message.MissionId + 1, 2)) # 2 = OpenNextMission, 4 = restartMission
+        if message.MissionStatus == 12: # 1 = start, 2 = continue 12=win  3 = lose  4 = surrender   (5, message.MissionId, 28), (5, message.MissionId + 1, 1)
+            self.messaging.sendMessage(LogicAvatarChangeMessage([(5, message.MissionId + 1, 18)]))#28 = CurrentFinishedReplay  18 = NextUnlockedContinue 16 = MissionSkip
+
+    def onAskForLeagueStatsMessage(self, message):
+        self.messaging.sendMessage(LeagueStatsMessage())

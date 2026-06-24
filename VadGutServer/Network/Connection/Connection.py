@@ -42,7 +42,6 @@ class Connection(threading.Thread):
                         decPayload = payload
                     
                     message: PiranhaMessage = LogicGutMessageFactory.createMessageByType(messageType)
-                    Debugger.debug(f"--Connection-- Received message with type {messageType}")
 
                     if message is not None:
                         message.setMessageVersion(messageVersion)
@@ -50,10 +49,6 @@ class Connection(threading.Thread):
 
                         message.decode()
                         self.manager.receiveMessage(message)
-                        
-                    else:
-                        Debugger.warning(f"--Connection-- Ignoring message of unknown type {messageType}")
-
         except ConnectionError:
             Debugger.debug(f"Client {self.address[0]}:{self.address[1]} has disconnected")
             self.client.close()

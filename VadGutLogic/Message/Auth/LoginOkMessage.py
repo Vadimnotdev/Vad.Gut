@@ -1,7 +1,6 @@
 from VadGutTitan.Logic.Message.VersionedMessage import VersionedMessage
 from VadGutTitan.Logic.Math.LogicLong import LogicLong
 from VadGutLogic.Calendar.LogicGameCalendar import LogicGameCalendar
-from VadGutTitan.Logic.DataStream.ChecksumEncoder import ChecksumEncoder
 class LoginOkMessage(VersionedMessage):
     def __init__(self):
         super().__init__()
