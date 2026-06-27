@@ -1,16 +1,15 @@
 from VadGutTitan.Logic.DataStream.ChecksumEncoder import ChecksumEncoder
 from VadGutLogic.Message.LogicAvatarChange.LogicAvatarChange import LogicAvatarChange
-from VadGutLogic.Avatar.LogicInventory import LogicInventory
 
-class LogicEquipmentInventoryAvatarChange(LogicAvatarChange):
+class LogicMoneyAvatarChange(LogicAvatarChange):
     def __init__(self):
         super().__init__()
-        self.isEquipped = None
+        self.count = None
 
     def encode(self, encoder: ChecksumEncoder):
         super().encode(encoder)
-        encoder.writeBoolean(self.isEquipped)
-        LogicInventory().encode(encoder)
+        encoder.writeInt(self.count)
+
 
     def getAvatarChangeType(self):
-        return 17
+        return 2

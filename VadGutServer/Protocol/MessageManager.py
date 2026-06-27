@@ -74,7 +74,6 @@ class MessageManager:
     def onBuyMessage(self, message: BuyMessage):
         self.messaging.sendMessage(BuyOkMessage(message.Item))
         self.messaging.sendMessage(LogicAvatarChangeMessage([(3, message.Item)]))
-
     def onAskForLeagueStatsMessage(self, message):
         self.messaging.sendMessage(LeagueStatsMessage())
     

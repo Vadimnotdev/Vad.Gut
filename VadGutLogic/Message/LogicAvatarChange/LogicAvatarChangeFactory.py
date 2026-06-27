@@ -4,6 +4,8 @@ from VadGutLogic.Message.LogicAvatarChange.LogicReadHandbookAvatarChange import 
 from VadGutLogic.Message.LogicAvatarChange.LogicInventoryAvatarChange import LogicInventoryAvatarChange
 from VadGutLogic.Message.LogicAvatarChange.LogicSkillTrainedAvatarChange import LogicSkillTrainedAvatarChange
 from VadGutLogic.Message.LogicAvatarChange.LogicTutorialProgessAvatarChange import LogicTutorialProgessAvatarChange
+from VadGutLogic.Message.LogicAvatarChange.LogicDiamondsGainedAvatarChange import LogicDiamondsGainedAvatarChange
+from VadGutLogic.Message.LogicAvatarChange.LogicMoneyAvatarChange import LogicMoneyAvatarChange
 from VadGutTitan.Logic.Debug.Debugger import Debugger
 
 class LogicAvatarChangeFactory:
@@ -17,6 +19,12 @@ class LogicAvatarChangeFactory:
 
     def createChange(self, *args):
         match self.AvatarChangeType:
+            case 1:
+                change = LogicDiamondsGainedAvatarChange()
+                change.count = args[0]
+            case 2:
+                change = LogicMoneyAvatarChange()
+                change.count = args[0]
             case 5:
                 change = LogicMissionAvatarChange()
                 change.missionId = args[0]
