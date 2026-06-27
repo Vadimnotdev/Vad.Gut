@@ -1,5 +1,9 @@
 from VadGutTitan.Logic.DataStream.ChecksumEncoder import ChecksumEncoder
 from VadGutLogic.Message.LogicAvatarChange.LogicMissionAvatarChange import LogicMissionAvatarChange
+from VadGutLogic.Message.LogicAvatarChange.LogicReadHandbookAvatarChange import LogicReadHandbookAvatarChange
+from VadGutLogic.Message.LogicAvatarChange.LogicInventoryAvatarChange import LogicInventoryAvatarChange
+from VadGutLogic.Message.LogicAvatarChange.LogicSkillTrainedAvatarChange import LogicSkillTrainedAvatarChange
+from VadGutLogic.Message.LogicAvatarChange.LogicTutorialProgessAvatarChange import LogicTutorialProgessAvatarChange
 from VadGutTitan.Logic.Debug.Debugger import Debugger
 
 class LogicAvatarChangeFactory:
@@ -17,6 +21,18 @@ class LogicAvatarChangeFactory:
                 change = LogicMissionAvatarChange()
                 change.missionId = args[0]
                 change.missionStatus = args[1]
-                return change
+            case 8:
+                change = LogicReadHandbookAvatarChange()
+                change.Item = args[0]
+            case 3:
+                change = LogicInventoryAvatarChange(args[0])
+            case 11:
+                change = LogicSkillTrainedAvatarChange()
+                change.TeamUnitIndex = args[0]
+                change.SkillName = args[1]
+            case 16:
+                change = LogicTutorialProgessAvatarChange()
+                change.TutorialFlag = args[0]
             case _:
                 Debugger.error(f"Unknown AvatarChangeType: {self.AvatarChangeType}")
+        return change

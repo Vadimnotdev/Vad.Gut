@@ -42,6 +42,7 @@ class Connection(threading.Thread):
                         decPayload = payload
                     
                     message: PiranhaMessage = LogicGutMessageFactory.createMessageByType(messageType)
+                    Debugger.debug(f"--Connection-- Received message with type {messageType}")
 
                     if message is not None:
                         message.setMessageVersion(messageVersion)

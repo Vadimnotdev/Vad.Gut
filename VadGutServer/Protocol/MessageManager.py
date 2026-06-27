@@ -9,8 +9,13 @@ from VadGutLogic.Message.Avatar.AddableFriendsMessage import AddableFriendsMessa
 from VadGutLogic.Message.Avatar.BuyOkMessage import BuyOkMessage
 from VadGutLogic.Message.Avatar.BuyMessage import BuyMessage
 from VadGutLogic.Message.LogicAvatarChange.LogicAvatarChangeMessage import LogicAvatarChangeMessage
-from VadGutLogic.Message.Avatar.MissionStatusMessage import MissionStatusMessage
 from VadGutLogic.Message.League.LeagueStatsMessage import LeagueStatsMessage
+from VadGutLogic.Message.Avatar.MissionStatusMessage import MissionStatusMessage
+from VadGutLogic.Message.Avatar.ReadHandbookMessage import ReadHandbookMessage
+from VadGutLogic.Message.Avatar.ReadHandbookOkMessage import ReadHandbookOkMessage
+from VadGutLogic.Message.Avatar.TrainMessage import TrainMessage
+from VadGutLogic.Message.Avatar.TrainOkMessage import TrainOkMessage
+from VadGutLogic.Message.Avatar.TutorialProgressUpdateMessage import TutorialProgressUpdateMessage
 from VadGutServer.Protocol.Messaging import Messaging
 
 class MessageManager:
@@ -38,6 +43,12 @@ class MessageManager:
                 self.onLogicMissionAvatarChange(message)
             case 10601:
                 self.onAskForLeagueStatsMessage(message)
+            case 10202:
+                self.onReadHandbookMessage(message)
+            case 10203:
+                self.onTrainMessage(message)
+            case 10210:
+                self.onTutorialProgressUpdateMessage(message)
             case _:
                 if messageType != 10108:
                     Debugger.warning("Unknown message type: " + str(messageType))
@@ -60,13 +71,24 @@ class MessageManager:
     def onAskForAddableFriendsMessage(self, message):
         self.messaging.sendMessage(AddableFriendsMessage())
     
-    def onBuyMessage(self, message):
-        buyMessage = BuyMessage()
-        self.messaging.sendMessage(BuyOkMessage(buyMessage.Item))
-    
-    def onLogicMissionAvatarChange(self, message: MissionStatusMessage):
-        if message.MissionStatus == 12: # 1 = start, 2 = continue 12=win  3 = lose  4 = surrender   (5, message.MissionId, 28), (5, message.MissionId + 1, 1)
-            self.messaging.sendMessage(LogicAvatarChangeMessage([(5, message.MissionId + 1, 18)]))#28 = CurrentFinishedReplay  18 = NextUnlockedContinue 16 = MissionSkip
+    def onBuyMessage(self, message: BuyMessage):
+        self.messaging.sendMessage(BuyOkMessage(message.Item))
+        self.messaging.sendMessage(LogicAvatarChangeMessage([(3, message.Item)]))
 
     def onAskForLeagueStatsMessage(self, message):
         self.messaging.sendMessage(LeagueStatsMessage())
+    
+    def onLogicMissionAvatarChange(self, message: MissionStatusMessage):
+        if message.MissionStatus == 12: # 1 = start, 2 = continue 12=win  3 = lose  4 = surrender   (5, message.MissionId, 28), (5, message.MissionId + 1, 1)
+            self.messaging.sendMessage(LogicAvatarChangeMessage([(5, message.MissionId + 1, 18)]))#28 = CurrentFinishedReplay  18 = NextUnlockedContinue 16 = MissionReplay
+    
+    def onReadHandbookMessage(self, message: ReadHandbookMessage):
+        self.messaging.sendMessage(ReadHandbookOkMessage(message.BookName))
+        self.messaging.sendMessage(LogicAvatarChangeMessage([(8, message.BookName)]))
+    
+    def onTrainMessage(self, message: TrainMessage):
+        self.messaging.sendMessage(TrainOkMessage(message.TeamUnitIndex, message.SkillName))
+        self.messaging.sendMessage(LogicAvatarChangeMessage([(11, message.TeamUnitIndex, message.SkillName)]))
+    
+    def onTutorialProgressUpdateMessage(self, message: TutorialProgressUpdateMessage):
+        self.messaging.sendMessage(LogicAvatarChangeMessage([(16, message.TutorialFlag)]))

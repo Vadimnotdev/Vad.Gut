@@ -11,6 +11,8 @@ from VadGutLogic.Message.Account.ChangeAccountSettingsMessage import ChangeAccou
 from VadGutLogic.Message.Account.KeepAliveMessage import KeepAliveMessage
 from VadGutLogic.Message.Avatar.BuyMessage import BuyMessage
 from VadGutLogic.Message.League.AskForLeagueStatsMessage import AskForLeagueStatsMessage
+from VadGutLogic.Message.Avatar.ReadHandbookMessage import ReadHandbookMessage
+from VadGutLogic.Message.Avatar.TrainMessage import TrainMessage
 
 
 class LogicGutMessageFactory:
@@ -28,6 +30,8 @@ class LogicGutMessageFactory:
         10108: KeepAliveMessage,
         10204: BuyMessage,
         10601: AskForLeagueStatsMessage,
+        10202: ReadHandbookMessage,
+        10203: TrainMessage,
         }
     def createMessageByType(messageType):
         messages = LogicGutMessageFactory.messages

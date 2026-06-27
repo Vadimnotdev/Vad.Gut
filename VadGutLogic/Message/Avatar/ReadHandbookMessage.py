@@ -1,12 +1,12 @@
 from VadGutTitan.Logic.Message.VersionedMessage import VersionedMessage
-class TutorialProgressUpdateMessage(VersionedMessage):
+class ReadHandbookMessage(VersionedMessage):
     def __init__(self):
         super().__init__()
-        self.TutorialFlag = None
+        self.BookName = None
 
     def decode(self):
         super().decode()
-        self.TutorialFlag = self.stream.readInt()
+        self.BookName = self.stream.readString()
     
     def getMessageType(self):
-        return 10210
+        return 10202
