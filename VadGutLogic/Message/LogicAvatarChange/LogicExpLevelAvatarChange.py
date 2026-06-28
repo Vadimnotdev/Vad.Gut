@@ -1,14 +1,14 @@
 from VadGutTitan.Logic.DataStream.ChecksumEncoder import ChecksumEncoder
 from VadGutLogic.Message.LogicAvatarChange.LogicAvatarChange import LogicAvatarChange
 
-class LogicTutorialProgessAvatarChange(LogicAvatarChange):
+class LogicExpLevelAvatarChange(LogicAvatarChange):
     def __init__(self):
         super().__init__()
-        self.TutorialFlag = None
+        self.ExpLevel = None
 
     def encode(self, encoder: ChecksumEncoder):
         super().encode(encoder)
-        encoder.writeInt(self.TutorialFlag)
+        encoder.writeInt(self.ExpLevel)
 
     def getAvatarChangeType(self):
-        return 16
+        return 7
